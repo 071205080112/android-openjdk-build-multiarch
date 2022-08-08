@@ -48,6 +48,7 @@ else
   sameflags="-arch arm64 -isysroot $thesysroot -miphoneos-version-min=12.0 -DHEADLESS=1 -I$PWD/ios-missing-include -Wno-implicit-function-declaration"
   export CFLAGS+=" $sameflags"
   export CXXFLAGS="$sameflags"
+  export LDFLAGS+=" -miphoneos-version-min=12.0"
 
   HOMEBREW_NO_AUTO_UPDATE=1 brew install ldid xquartz
 fi
@@ -61,6 +62,10 @@ cd openjdk
 #   --with-extra-cxxflags="$CXXFLAGS -Dchar16_t=uint16_t -Dchar32_t=uint32_t" \
 #   --with-extra-cflags="$CPPFLAGS" \
 #   --with-sysroot="$(xcrun --sdk iphoneos --show-sdk-path)" \
+
+# Let's print what's available
+# bash configure --help
+
 bash ./configure \
     --openjdk-target=$TARGET_PHYS \
     --with-extra-cflags="$CFLAGS" \
@@ -72,6 +77,7 @@ bash ./configure \
     --with-cups-include=$CUPS_DIR \
     --with-devkit=$TOOLCHAIN \
     --with-debug-level=$JDK_DEBUG_LEVEL \
+    --with-native-debug-symbols=none \
     --with-fontconfig-include=$ANDROID_INCLUDE \
     --with-freetype-lib=$FREETYPE_DIR/lib \
     --with-freetype-include=$FREETYPE_DIR/include/freetype2 \
